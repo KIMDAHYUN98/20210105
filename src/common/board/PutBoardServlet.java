@@ -32,7 +32,7 @@ public class PutBoardServlet extends HttpServlet {
 		
 		if(dao.insertBoard(vo)) {
 			response.getWriter().append("<h1>OK</h1>");
-		}else {
+		} else {
 			response.getWriter().append("<h1>NG</h1>");
 		}
 	}
