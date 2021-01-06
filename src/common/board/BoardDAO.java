@@ -3,11 +3,14 @@ package common.board;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoardDAO {
 	private Connection conn = null;
+
 	public BoardDAO() {
 		try {
 			String user = "hr";
@@ -29,6 +32,35 @@ public class BoardDAO {
 
 	} // 생성자
 
+	public List<BoardVO> getBoardList() {
+		String sql = "select * from boards";
+		List<BoardVO> list = new ArrayList();
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);
+			ResultSet rs = psmt.executeQuery();
+			while (rs.next()) {
+				BoardVO vo = new BoardVO();
+				vo.setBoardNo(rs.getInt("board_no"));
+				vo.setContent(rs.getString("content"));
+				vo.setCreationDate(rs.getString("creation_date"));
+				vo.setTitle(rs.getString("title"));
+				vo.setWriter(rs.getString("writer"));
+
+				list.add(vo);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
+	}
+
 	public boolean insertBoard(BoardVO vo) {
 		String sql = "insert into boards(board_no, title, content, writer, creation_date)"
 				+ "values((select nvl(max(board_no), 0) + 1 from boards) ,? ,? ,? , sysdate)";
@@ -40,9 +72,9 @@ public class BoardDAO {
 			psmt.setString(3, vo.getWriter());
 			cnt = psmt.executeUpdate();
 			System.out.println(cnt);
-			
+
 		} catch (SQLException e) {
-		
+
 			e.printStackTrace();
 		} finally {
 			try {
@@ -53,5 +85,5 @@ public class BoardDAO {
 		}
 		return cnt == 1 ? true : false;
 	}
-	
+
 }
