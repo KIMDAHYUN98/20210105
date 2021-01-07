@@ -1,3 +1,4 @@
+
 /**
  * showPage2.js
  */
@@ -12,21 +13,25 @@ function showPage() {
 
 	//title tr
 	//data tr => [배열]
+
 	let headerTr = titleRow(data);
 	let dataTr = contentRow(data);
 	tableTag.appendChild(headerTr);
 	for (let i = 0; i < dataTr.length; i++) {
-		tableTag.appendChild(addBtn(dataTr[i], delFunc)); // 기본 tr에다가 콜백함수(delFunc, 기능 정의)로 매개값을 받아 addBtn 함수로 버튼 추가?
+		tableTag.appendChild(addBtn(dataTr[i], delFunc));
+		// 기본 tr에다가 콜백함수(delFunc, 기능 정의)로 매개값을 받아 addBtn 함수로 버튼 추가?
 	}
 	document.getElementById('show').appendChild(tableTag);
 }
 
+
 function delFunc() {
 	console.log(this);
-	console.log(this.parentNode.parentNode.remove());
+
 	let id = this.parentNode.parentNode.childNodes[0].firstChild.nodeValue;
+	this.parentNode.parentNode.remove();
 	let req = new XMLHttpRequest();
-	req.open('get', '../deleteEmp?empId='+id);
+	req.open('get', '../deleteEmp?empId=' + id);
 	req.send();
 	req.onload = function() {
 		console.log(req.responseText);
@@ -50,7 +55,7 @@ function titleRow(result) {
 	let trTag = document.createElement('tr');
 	for (let i = 0; i < result[0].childNodes.length; i++) {
 		let tdTag = document.createElement('th');
-		let textNode = document.createTextNode(result[0].childNodes[i].nodeName);
+		let textNode = document.createTextNode(result[0].childNodes[i].nodeName.toUpperCase());
 		tdTag.appendChild(textNode);
 		trTag.appendChild(tdTag);
 	}
@@ -62,19 +67,39 @@ function contentRow(result) {
 
 	for (let j = 0; j < result.length; j++) {
 		let trTag = document.createElement('tr');
+		
+		let fName = result[j].childNodes[1].firstChild.nodeValue;
+		let lName = result[j].childNodes[2].firstChild.nodeValue;
+		let email = result[j].childNodes[3].firstChild.nodeValue;
+		let jobId = result[j].childNodes[6].firstChild.nodeValue;
+		
+		let empId = result[j].childNodes[0].firstChild.nodeValue;
+		trTag.setAttribute('id', 'emp_' + empId);
+		
+		trTag.onclick = function() {
+			document.getElementById('eid').value = empId;
+			document.getElementById('fName').value = fName;
+			document.getElementById('lName').value = lName;
+			document.getElementById('email').value = email;
+			document.getElementById('jobId').value = jobId;
+			
+		}
+		
 		trTag.onmouseover = function() {
 			trTag.style.background = 'yellow';
 		}
 		trTag.onmouseout = function() {
 			trTag.style.background = '';
 		}
-		for (let i = 0; i < result[0].childNodes.length; i++) {
-			let tdTag = document.createElement('td');
-			let textNode = document.createTextNode(result[j].childNodes[i].firstChild.nodeValue.toUpperCase());
-			tdTag.appendChild(textNode);
-			trTag.appendChild(tdTag);
-		}
-		trTags.push(trTag);
+		
+	
+	for (let i = 0; i < result[0].childNodes.length; i++) {
+		let tdTag = document.createElement('td');
+		let textNode = document.createTextNode(result[j].childNodes[i].firstChild.nodeValue);
+		tdTag.appendChild(textNode);
+		trTag.appendChild(tdTag);
 	}
-	return trTags;
+	trTags.push(trTag);
+}
+return trTags;
 }
