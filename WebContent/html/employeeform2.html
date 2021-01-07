@@ -36,10 +36,24 @@
 
 	<div id="show"></div>
 	<script>
-		
-	
 		function updateBtn() {
-			
+			let fName = document.getElementById('fName').value;
+			let lName = document.getElementById('lName').value;
+			let email = document.getElementById('email').value;
+			let jobId = document.getElementById('jobId').value;
+			let url = '../updateServ?fName=' + fName + '&lName=' + lName
+					+ '&email=' + email + '&jobId=' + jobId;
+
+			let saveReq = new XMLHttpRequest();
+
+			saveReq.open('get', url);
+			saveReq.send();
+			saveReq.onload = function() {
+				console.log(saveReq.responseXML);
+				let doc = saveReq.responseXML;
+				let result = doc.getElementsByTagName('result');
+				console.log(result[0].childNodes);
+			}
 		}
 		function saveBtn() {
 			console.log(this);
@@ -52,7 +66,7 @@
 					+ '&email=' + email + '&jobId=' + jobId; // 사용자가 입력한 값들을 출력
 
 			let saveReq = new XMLHttpRequest();
-			
+
 			saveReq.open('get', url);
 			saveReq.send();
 			saveReq.onload = function() {
@@ -67,7 +81,7 @@
 					let tdTag = document.createElement('td');
 					let btn = document.createElement('button');
 					btn.innerHTML = '삭제';
-					
+
 					btn.onclick = function() {
 						let id = this.parentNode.parentNode.childNodes[0].firstChild.nodeValue;
 						console.log(this.parentNode.parentNode.remove());
@@ -97,15 +111,13 @@
 					trTag.onclick = function() {
 						console.log(this);
 					}
-					
+
 				}
 				document.getElementById('tbl').appendChild(trTag);
 
 			}
 
 		}
-		
-		
 
 		let xhtp = new XMLHttpRequest();
 		xhtp.open('get', '../home'); // 전체 리스트를 조회

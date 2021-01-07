@@ -109,6 +109,7 @@ public class EmpDAO {
 		int r = 0;
 		try {
 			PreparedStatement psmt = conn.prepareStatement(sql);
+			System.out.println(vo.getEmployeeId());
 			psmt.setString(1, vo.getFirstName());
 			psmt.setString(2, vo.getLastName());
 			psmt.setString(3, vo.getEmail());
