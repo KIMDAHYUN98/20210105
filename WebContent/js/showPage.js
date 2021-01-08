@@ -4,8 +4,7 @@
 
 function showPage() {
 	let doc = xhtp.responseXML;
-	let data = doc.getElementsByTagName('record')
-	console.log(data);
+	let data = doc.getElementsByTagName('record');
 	let tableTag = document.createElement('table');
 	tableTag.setAttribute('border', '1');
 	

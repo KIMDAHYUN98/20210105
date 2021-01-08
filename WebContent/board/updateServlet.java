@@ -17,15 +17,12 @@ public class updateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String eid = request.getParameter("eid");
 		String fName = request.getParameter("fName");
 		String lName = request.getParameter("lName");
 		String email = request.getParameter("email");
-		String hireDate = request.getParameter("hireDate");
 		String jobId = request.getParameter("jobId");
 		
 		EmployeeVO vo = new EmployeeVO();
-		vo.setEmployeeId(Integer.parseInt(eid));
 		vo.setFirstName(fName);
 		vo.setLastName(lName);
 		vo.setEmail(email);

@@ -5,8 +5,7 @@
 
 function showPage() {
 	let doc = xhtp.responseXML;
-	let data = doc.getElementsByTagName('record')
-	console.log(data);
+	let data = doc.getElementsByTagName('record');
 	let tableTag = document.createElement('table');
 	tableTag.setAttribute('border', '1');
 	tableTag.setAttribute('id', 'tbl');
@@ -81,10 +80,9 @@ function contentRow(result) {
 			document.getElementById('fName').value = fName;
 			document.getElementById('lName').value = lName;
 			document.getElementById('email').value = email;
-			document.getElementById('jobId').value = jobId;
-			
+			document.getElementById('jobId').value = jobId;		
 		}
-		
+
 		trTag.onmouseover = function() {
 			trTag.style.background = 'yellow';
 		}

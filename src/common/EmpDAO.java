@@ -103,26 +103,48 @@ public class EmpDAO {
 	}
 	
 	//update 기능 생성?
-	public boolean updateEmp(EmployeeVO vo) {
+	public EmployeeVO updateEmp(EmployeeVO vo) {
 		String sql = "update emp_temp set first_name = ?, last_name = ?, email = ?, job_id = ?"
 				+ "where employee_id = ?";
+		String sql2 = "select * from emp_temp";
 		int r = 0;
+		EmployeeVO newVo = new EmployeeVO();
 		try {
 			PreparedStatement psmt = conn.prepareStatement(sql);
-			System.out.println(vo.getEmployeeId());
 			psmt.setString(1, vo.getFirstName());
 			psmt.setString(2, vo.getLastName());
 			psmt.setString(3, vo.getEmail());
 			psmt.setString(4, vo.getJobId());
 			psmt.setInt(5, vo.getEmployeeId());
+			System.out.println(vo.getEmployeeId());
 			
 			r = psmt.executeUpdate();
-			System.out.println(r + "건 삭제됨.");
-					
+			System.out.println(r + "건 수정됨.");
+			
+			psmt = conn.prepareStatement(sql2);
+			ResultSet rs = psmt.executeQuery();
+			if (rs.next()) {
+				
+				newVo.setEmail(rs.getString("email"));
+				newVo.setEmployeeId(rs.getInt("employee_id"));
+				newVo.setFirstName(rs.getString("first_name"));
+				newVo.setHireDate(rs.getString("hire_date"));
+				newVo.setJobId(rs.getString("job_id"));
+				newVo.setLastName(rs.getString("last_name"));
+				newVo.setPhoneNumber(rs.getString("phone_number"));
+				newVo.setSalary(rs.getInt("salary"));
+			}
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch(SQLException e) {
+				e.printStackTrace();
+			}
 		}
-		return r == 1? true : false;
+		return newVo;
 	}
 
 	public List<EmployeeVO> getEmpList() {

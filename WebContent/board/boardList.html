@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>boardList.html</title>
+<script src="../js/showPage.js"></script>
+<!-- js 파일 경로 지정 -->
+</head>
+<body>
+	<!--화면에 게시판데이터(boards) table 형식으로 화면에 보여주도록-->
+	<!--DAO, Servlet, ajax 호출 (XMLHttpRequest()) -->
+
+	<table>
+		<tr>
+			<td>boardNo</td>
+			<td><input type="text" id='fName' name="fName"></td>
+		</tr>
+		<tr>
+			<td>title</td>
+			<td><input type="text" id='lName' name="lName"></td>
+		</tr>
+		<tr>
+			<td>content</td>
+			<td><input type="text" id='email' name="email"></td>
+		</tr>
+		<tr>
+			<td>writer</td>
+			<td><input type="text" id='jobId' name="jobId"></td>
+		</tr>
+		<tr>
+			<td align="center"><button id='btn2' onclick='updateBtn()'>수정</button></td>
+		</tr>
+	</table>
+
+	<div id="show"></div>
+	<script>
+		
+	function updateBtn() {
+		let fName = document.getElementById('fName').value;
+		let lName = document.getElementById('lName').value;
+		let email = document.getElementById('email').value;
+		let jobId = document.getElementById('jobId').value;
+
+		let url = 'fName=' + fName + '&lName=' + lName + '&email=' + email
+				+ '&jobId=' + jobId
+		let saveReq = new XMLHttpRequest();
+		saveReq.open('post', 'updateServ');
+		saveReq.setRequestHeader("Content-type",
+				"application/x-www-form-urlencoded");
+		saveReq.send(url);
+		saveReq.onload = function() {
+			let doc = saveReq.responseXML;
+			let result = doc.getElementsByTagName('result');
+			let eid = result[0].childNodes[0].firstChild.nodeValue;
+			let tr = document.getElementById('emp_' + eid);
+			tr.childNodes[1].firstChild.nodeValue = document.getElementById('fName').value;
+			tr.childNodes[2].firstChild.nodeValue = document.getElementById('lName').value;
+			tr.childNodes[3].firstChild.nodeValue = document.getElementById('email').value;
+			tr.childNodes[6].firstChild.nodeValue = document.getElementById('jobId').value;
+
+		}
+
+	}
+	
+		let xhtp = new XMLHttpRequest();
+		xhtp.open('get', '../boardList');
+		xhtp.send();
+		xhtp.onload = showPage;
+	</script>
+
+</body>
+</html>

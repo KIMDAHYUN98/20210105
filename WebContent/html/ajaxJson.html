@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>html/ajaxJson.html</title>
+</head>
+<body>
+	<script>
+		let json = {
+			"name" : "John",
+			"age" : 30,
+			"cars" : [ "Ford", "BMW", "Fiat" ]
+		}
+		console.log(json.cars[0]);
+
+		let xhtp = new XMLHttpRequest(); // obj 생성
+		xhtp.open('get', '../empListJson');
+		xhtp.send();
+		xhtp.onload = function() {
+			let data = xhtp.response;
+			let obj = JSON.parse(data);
+			//Json.parse : 메소드, 문자열을 자바스크립트의 오브젝트 타입으로 변환
+			//console.log(obj);
+			let ulTag = document.createElement('ul');
+			for (let i = 0; i < obj.length; i++) {
+				let liTag = document.createElement('li');
+				let val = obj[i].id + ', ' + obj[i].firstName + ', '
+						+ obj[i].lastName + ', ' + obj[i].email + ', '
+						+ obj[i].salary;
+				let tNode = document.createTextNode(val)
+				liTag.appendChild(tNode);
+				ulTag.appendChild(liTag);
+			}
+			document.getElementsByTagName('body')[0].appendChild(ulTag);
+			// body태그 속 배열이 하나지만 인덱스 값을 지정 해줘야 한다.
+		}
+	</script>
+</body>
+</html>
