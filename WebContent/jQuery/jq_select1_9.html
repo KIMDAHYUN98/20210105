@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jq_select1_9.html</title>
+    <script src="../js/jquery-3.5.1.min.js"></script>
+    <script>
+        $(function() {
+            $("#wrap > h1").css("border", "2px dashed #f00");
+
+            $("#wrap > section").children().css({
+                "background-color":"yellow",
+                "border":"2px soild #f00"
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="wrap">
+        <h1>인접 관계 선택자</h1>
+        <p>내용</p>
+        <section>
+            <h1>자식 요소 선택자</h1>
+            <p>내용</p>
+        </section>
+    </div>
+</body>
+</html>
