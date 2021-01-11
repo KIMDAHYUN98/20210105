@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jq_selec1_1.html</title>
+    <script src="../js/jquery-3.5.1.min.js"></script>
+    <script>
+
+        let persons = [];
+
+        persons.push('Hong');
+        persons.push('Hwang');
+        persons.push('Park');
+
+        $(document).ready(function () {
+            let ulTag = $('<ul />').attr('id', 'main');
+            $.each(persons, function (a, b) {
+                console.log(a, b);
+                ulTag.append($('<li />').html(b));
+            })
+
+            console.log(ulTag);
+            $('body').append(ulTag);
+
+        });
+
+        $(document).ready(function () {
+            let table = $('<table border="1" />').attr('id', 'tbl');
+            
+            $.each(persons, function (a, b) {
+                let tr = $('<tr />');
+                $(tr).mouseover(function() {
+                    console.log($(this));
+                    $(this).css('background-color', 'yellow');
+                })
+                $(tr).mouseout(function() {
+                    $(this).css('background-color', '');
+                })
+                let td = $('<td />').html(b);
+                tr.append(td);
+                let btnTag = $('<td />');
+                let btn = $('<button />').html('OK');
+                $(btn).click(function () {
+                    //alert('warning') // 클릭 시 경고 창이 뜨게 함
+                    $(tr).remove();
+                });
+                btnTag.append(btn);
+                tr.append(btnTag);
+
+                table.append(tr);
+            })
+            $('body').append(table);
+        })
+    </script>
+
+</head>
+
+<body>
+
+</body>
+
+</html>
